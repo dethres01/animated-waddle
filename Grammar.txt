@@ -1,0 +1,21 @@
+// the grammar we have to work on is
+
+E -> E + T | E - T | T
+T -> (E) | id | num
+
+// we need to convert this into a form that can be used by the parser
+
+E -> T E'
+E' -> + T E' | - T E' | e
+T -> (E) | id | num  <- T doesn't really have left recursion
+
+
+
+// Semantic actions
+
+E -> E+T  -> E.Node("+", E1.Node, T.Node)
+E -> E-T  -> E.Node("-", E1.Node, T.Node)
+E -> T    -> T.Node
+T -> (E)  -> E.Node
+T -> id   -> T.Node = new Leave("id", id)
+T -> num  -> T.Node = new Leave("num", num)
